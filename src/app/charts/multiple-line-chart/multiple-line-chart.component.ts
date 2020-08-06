@@ -37,12 +37,14 @@ export class MultipleLineChartComponent {
   }
 
   private buildSvg() {
+    // building svg
     this.svg = d3.select('#' + this.uniqueChartId)
       .append('g')
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
   }
 
   private setAxes() {
+    // setting up x and y axis
     this.width = 960 - this.margin.left - this.margin.right;
     this.height = 500 - this.margin.top - this.margin.bottom;
     this.minValue = d3Array.min(this.data, (d) => {
@@ -70,9 +72,10 @@ export class MultipleLineChartComponent {
   }
 
   private renderChart() {
+    // rendering chart
     let numberOfLines = this.data && this.data.length && this.data[0].values && this.data[0].values.length;
     for (let i = 0; i < numberOfLines; i++) {
-      this.drawIndividualLineChart(i);
+      this.drawIndividualLineChart(i); // dynamically creating lines on the basis of data.
     }
     if (this.fillAreaBetweenLines) {
       this.fillArea();
@@ -91,7 +94,7 @@ export class MultipleLineChartComponent {
       .style('fill', 'none')
       .style('stroke', this.colors[index] || UtilService.getRandomColor());
 
-    // add circles
+    // adding circles
     this.svg.append("g")
       .selectAll(".circle")
       .data(this.data)
@@ -104,6 +107,7 @@ export class MultipleLineChartComponent {
   }
 
   fillArea() {
+    // fill area between two lines
     let line1, line2, temp: any = {};
     d3Axis.extent(this.data, (d: any) => {
       d.values.forEach((v: any) => {
